@@ -5,8 +5,11 @@ import dearpygui.dearpygui as dpg
 import pyautogui
 import schedule
 import extcolors
+from pynput.keyboard import Key, Controller
 
-weapons = { 'Small Stones': 'assets/images/100_small_stones.png' }
+keyboard = Controller()
+
+weapons = { 'Small Stones': 'assets/images/small_stones.png' }
 
 class AutoTrainer:
   def __init__(self):
@@ -83,27 +86,10 @@ class AutoTrainer:
   def format_countdown(self, seconds):
     return time.strftime("%M:%S", time.gmtime(seconds))
 
-  def calculate_health(self):
-    current_health_image = pyautogui.screenshot(region=(self.health_bar_x * 2, self.health_bar_y * 2, 50, 4))
-    colors, pixel_count_sum = extcolors.extract_from_image(current_health_image)
-    
-    if len(colors) >= 2:
-      black_pixel_count = colors[1][1]
-      health_percent = int(black_pixel_count * 100 / pixel_count_sum)
-
-      if health_percent >= self.min_health_percent:
-        pyautogui.keyDown('f1')
-        time.sleep(1)
-        pyautogui.keyUp('f1')
-
-  def locate_health_bar_coords(self):
-    try:
-      location = pyautogui.locateOnScreen('assets/images/full_health_bar.png')
-      self.health_bar_x = location.left // 2 + 1
-      self.health_bar_y = location.top // 2 + 1
-    except:
-      print('could not localate full_health_bar image')
-
+  def heal(self):
+    keyboard.press(Key.f1)
+    keyboard.release(Key.f1)
+  
   def on_start(self):
     if self.enable_character_awake:
       self.awake_character()
@@ -119,10 +105,7 @@ class AutoTrainer:
 
     self.started = True
 
-    # self.locate_health_bar_coords()
-    # self.calculate_health()
-    # self.run_job(0.06, self.calculate_health, 'auto_heal')
-    # schedule.every(1).seconds.do(self.calculate_health).tag('auto_heal')
+    self.run_job(1, self.heal, 'auto_heal')
   
   def on_stop(self):
     self.clear_job(None)
