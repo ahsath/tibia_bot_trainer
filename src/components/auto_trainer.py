@@ -105,7 +105,7 @@ class AutoTrainer:
 
     self.started = True
 
-    self.run_job(1, self.heal, 'auto_heal')
+    self.run_job(3, self.heal, 'auto_heal')
   
   def on_stop(self):
     self.clear_job(None)
