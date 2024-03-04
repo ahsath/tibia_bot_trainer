@@ -4,7 +4,6 @@ import time
 import dearpygui.dearpygui as dpg
 import pyautogui
 import schedule
-import extcolors
 from pynput.keyboard import Key, Controller
 
 keyboard = Controller()
@@ -35,10 +34,6 @@ class AutoTrainer:
     self.auto_equip_job_tag = 'auto_equip'
     self.selected_weapon = 'Small Stones'
     self.auto_equip_timeout = 10 / 60
-
-    self.health_bar_x = 0
-    self.health_bar_y = 0
-    self.min_health_percent = 10
 
     self.define_component()
 
