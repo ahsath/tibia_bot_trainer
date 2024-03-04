@@ -8,7 +8,7 @@ import schedule
 import dearpygui.dearpygui as dpg
 import pyautogui
 
-from src.components.auto_trainer import AutoTrainer
+from auto_trainer import AutoTrainer
 
 pyautogui.FAILSAFE = True
 
